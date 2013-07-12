@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/sorentwo/perforated.png?branch=master)](https://travis-ci.org/sorentwo/perforated)
 [![Code Climate](https://codeclimate.com/github/sorentwo/perforated.png)](https://codeclimate.com/github/sorentwo/perforated)
 
 # Perforated
