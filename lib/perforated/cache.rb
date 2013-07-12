@@ -1,5 +1,3 @@
-require 'json'
-
 module Perforated
   class Cache
     attr_reader :enumerable, :key_strategy

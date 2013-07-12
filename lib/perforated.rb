@@ -1,4 +1,5 @@
 require 'active_support/cache'
+require 'json'
 require 'perforated/cache'
 require 'perforated/strategy/default'
 require 'perforated/version'
