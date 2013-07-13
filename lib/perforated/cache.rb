@@ -9,16 +9,18 @@ module Perforated
 
     def as_json(*)
       keyed = keyed_enumerable('as-json')
+      keys  = keyed.keys.map(&:dup)
 
-      Perforated::Compatibility.fetch_multi(*keyed.keys) do |key|
+      Perforated::Compatibility.fetch_multi(*keys) do |key|
         keyed[key].as_json
       end
     end
 
     def to_json(*)
       keyed = keyed_enumerable('to-json')
+      keys  = keyed.keys.map(&:dup)
 
-      json_objects = Perforated::Compatibility.fetch_multi(*keyed.keys) do |key|
+      json_objects = Perforated::Compatibility.fetch_multi(*keys) do |key|
         keyed[key].to_json
       end
 
