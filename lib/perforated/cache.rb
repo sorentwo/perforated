@@ -10,7 +10,7 @@ module Perforated
     def as_json(*)
       keyed = keyed_enumerable('as-json')
 
-      fetch_multi(*keyed.keys) do |key|
+      Perforated::Compatibility.fetch_multi(*keyed.keys) do |key|
         keyed[key].as_json
       end
     end
@@ -18,7 +18,7 @@ module Perforated
     def to_json(*)
       keyed = keyed_enumerable('to-json')
 
-      json_objects = fetch_multi(*keyed.keys) do |key|
+      json_objects = Perforated::Compatibility.fetch_multi(*keyed.keys) do |key|
         keyed[key].to_json
       end
 
@@ -26,20 +26,6 @@ module Perforated
     end
 
     private
-
-    # Backward compatible implementation of fetch multi.
-    def fetch_multi(*names)
-      options = {}
-      results = Perforated.cache.read_multi(*names, options)
-
-      names.map do |name|
-        results.fetch(name) do
-          value = yield name
-          Perforated.cache.write(name, value, options)
-          value
-        end
-      end
-    end
 
     def keyed_enumerable(suffix = '')
       enumerable.inject({}) do |memo, object|
