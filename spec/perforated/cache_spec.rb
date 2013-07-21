@@ -24,10 +24,10 @@ describe Perforated::Cache do
       array  = [ruby, elixir]
       cache  = Perforated::Cache.new(array)
 
-      cache.as_json.should == [{ name: 'Ruby' }, { name: 'Elixir' }]
+      expect(cache.as_json).to eq([{ name: 'Ruby' }, { name: 'Elixir' }])
 
-      Perforated.cache.read('Language/Ruby/as-json').should   == ruby.as_json
-      Perforated.cache.read('Language/Elixir/as-json').should == elixir.as_json
+      expect(Perforated.cache.read('Language/Ruby/as-json')).to eq(ruby.as_json)
+      expect(Perforated.cache.read('Language/Elixir/as-json')).to eq(elixir.as_json)
     end
 
     it 'does not overwrite existing key values' do
@@ -36,7 +36,7 @@ describe Perforated::Cache do
 
       Perforated::Cache.new([erlang]).as_json
 
-      Perforated.cache.read('Language/Erlang/as-json').should == { name: 'Elixir' }
+      expect(Perforated.cache.read('Language/Erlang/as-json')).to eq(name: 'Elixir')
     end
   end
 
@@ -44,10 +44,9 @@ describe Perforated::Cache do
     it 'constructs a stringified json array of underlying values' do
       cache = Perforated::Cache.new([Language.new('Ruby'), Language.new('Elixir')])
 
-      cache.to_json.should == %([{"name":"Ruby"},{"name":"Elixir"}])
-
-      Perforated.cache.exist?('Language/Ruby/to-json').should   be_true
-      Perforated.cache.exist?('Language/Elixir/to-json').should be_true
+      expect(cache.to_json).to eq(%([{"name":"Ruby"},{"name":"Elixir"}]))
+      expect(Perforated.cache.exist?('Language/Ruby/to-json')).to   be_true
+      expect(Perforated.cache.exist?('Language/Elixir/to-json')).to be_true
     end
   end
 end
