@@ -13,11 +13,9 @@ describe Perforated::Compatibility do
     end
 
     it 'falls back to the custom backfill if the cache does not support it' do
-      cache = Perforated.cache
+      results = Perforated::Compatibility.fetch_multi(:one, :two) { |key| key.to_s }
 
-      Perforated::Compatibility.fetch_multi(:one, :two) do |key|
-        key
-      end
+      expect(results).to eq(one: 'one', two: 'two')
     end
   end
 end

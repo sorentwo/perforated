@@ -11,20 +11,15 @@ module Perforated
       keyed = keyed_enumerable('as-json')
       keys  = keyed.keys.map(&:dup)
 
-      Perforated::Compatibility.fetch_multi(*keys) do |key|
-        keyed[key].as_json
-      end
+      fetch_multi(keys) { |key| keyed[key].as_json }.values
     end
 
     def to_json(*)
-      keyed = keyed_enumerable('to-json')
-      keys  = keyed.keys.map(&:dup)
+      keyed   = keyed_enumerable('to-json')
+      keys    = keyed.keys.map(&:dup)
+      objects = fetch_multi(keys) { |key| keyed[key].to_json }
 
-      json_objects = Perforated::Compatibility.fetch_multi(*keys) do |key|
-        keyed[key].to_json
-      end
-
-      "[#{json_objects.join(',')}]"
+      "[#{objects.values.join(',')}]"
     end
 
     private
@@ -34,6 +29,10 @@ module Perforated
         memo[key_strategy.expand_cache_key(object, suffix)] = object
         memo
       end
+    end
+
+    def fetch_multi(keys, &block)
+      Perforated::Compatibility.fetch_multi *keys, &block
     end
   end
 end
