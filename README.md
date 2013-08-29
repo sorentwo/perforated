@@ -39,7 +39,7 @@ end
 
 ## Usage
 
-Wrap any collection that you want to serialize in an a cache instance and then
+Wrap any collection that you want to serialize in a cache instance and then
 call `as_json` or `to_json` on it. Not much to it!
 
 ```ruby
