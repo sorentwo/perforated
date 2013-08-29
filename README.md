@@ -88,7 +88,7 @@ perforated = Perforated::Cache.new(array, CustomStrategy)
 
 Add this line to your application's Gemfile:
 
-    gem 'perforated-cache'
+    gem 'perforated'
 
 And then execute:
 
@@ -96,7 +96,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install perforated-cache
+    $ gem install perforated
 
 ## Contributing
 
