@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/sorentwo/perforated.png?branch=master)](https://travis-ci.org/sorentwo/perforated)
 [![Code Climate](https://codeclimate.com/github/sorentwo/perforated.png)](https://codeclimate.com/github/sorentwo/perforated)
+[![Gem Version](https://badge.fury.io/rb/perforated.png)](http://badge.fury.io/rb/perforated)
 
 # Perforated
 
@@ -38,7 +39,7 @@ end
 
 ## Usage
 
-Wrap any collection that you want to serialize in an a cache instance and then
+Wrap any collection that you want to serialize in a cache instance and then
 call `as_json` or `to_json` on it. Not much to it!
 
 ```ruby
@@ -88,7 +89,7 @@ perforated = Perforated::Cache.new(array, CustomStrategy)
 
 Add this line to your application's Gemfile:
 
-    gem 'perforated-cache'
+    gem 'perforated'
 
 And then execute:
 
@@ -96,7 +97,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install perforated-cache
+    $ gem install perforated
 
 ## Contributing
 
