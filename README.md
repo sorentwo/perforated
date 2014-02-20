@@ -21,7 +21,7 @@ if you are so inclined you can customize the backing cache. The default cache
 store is `ActiveSupport::Cache::MemoryStore`, which is fast but has no
 persistence.
 
-Within a Rails project the simplest option is to lock with the Rails cache.
+Within a Rails project the simplest option is to lock with the Rails cache:
 
 ```ruby
 Perforated.configure do |config|
