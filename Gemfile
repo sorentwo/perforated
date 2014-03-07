@@ -1,4 +1,7 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in perforated-cache.gemspec
 gemspec
+
+gem 'dalli'
+gem 'redis'
+gem 'redis-activesupport'
