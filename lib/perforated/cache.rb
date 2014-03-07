@@ -25,9 +25,8 @@ module Perforated
     private
 
     def keyed_enumerable(suffix = '')
-      enumerable.inject({}) do |memo, object|
+      enumerable.each_with_object({}) do |object, memo|
         memo[key_strategy.expand_cache_key(object, suffix)] = object
-        memo
       end
     end
 

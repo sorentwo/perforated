@@ -13,14 +13,12 @@ module Perforated
       options = {}
       results = Perforated.cache.read_multi(*names, options)
 
-      names.inject({}) do |memo, (name, _)|
+      names.each_with_object({}) do |(name, _), memo|
         memo[name] = results.fetch(name) do
           value = yield name
           Perforated.cache.write(name, value, options)
           value
         end
-
-        memo
       end
     end
   end
