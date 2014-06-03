@@ -15,7 +15,20 @@ module Perforated
     @cache ||= ActiveSupport::Cache::MemoryStore.new
   end
 
+  def self.json=(new_json)
+    @json = new_json
+  end
+
+  def self.json
+    @json ||= JSON
+  end
+
   def self.configure
     yield self
+  end
+
+  def self.reset!
+    @cache = nil
+    @json  = nil
   end
 end

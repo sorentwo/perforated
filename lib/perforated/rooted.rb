@@ -18,7 +18,7 @@ module Perforated
       sets_to_hashes(merged)
     end
 
-    def self.reconstruct(objects, parser = JSON)
+    def self.reconstruct(objects, parser = Perforated.json)
       parser.dump(merge(parser.load(objects)))
     end
 
