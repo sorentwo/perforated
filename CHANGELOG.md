@@ -1,3 +1,7 @@
+## Version 0.8.0
+
+* Support reconstructing collections of rooted objects and associations.
+
 ## Version 0.7.0
 
 * Alter the implementation of `fetch_multi` to return a hash rather than an

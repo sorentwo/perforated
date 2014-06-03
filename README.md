@@ -37,6 +37,17 @@ Perforated.configure do |config|
 end
 ```
 
+The standard library's JSON parser is great for most usage, and thus it is the
+default. However, sometimes you may want a bit more control or performance:
+
+```ruby
+require 'oj'
+
+Perforated.configure do |config|
+  config.json = Oj
+end
+```
+
 ## Usage
 
 Wrap any collection that you want to serialize in a cache instance and then
@@ -51,6 +62,35 @@ perforated.as_json
 Any objects that have been cached will be retrieved unaltered. Any missing
 objects (cache misses) will be serialized, inserted back into the collection,
 and written into the cache.
+
+Perforated supports reconstructing rooted objects, the likes of which can be
+output by [ActiveModelSerializers][ams]. Serialized object collections may also
+have associations serialized within the same cache key. After the cached
+objects are fetched they will be merged together into flattened namespaces. For
+example, given a serialized representation like this:
+
+```json
+{ "posts":   { "id": 1, "author_id": 1, "title": "Greatness" },
+  "authors": [{ "id": 1, "name": "Myself" }] }
+
+{ "posts":   { "id": 2, "author_id": 2, "title": "Failure" },
+  "authors": [{ "id": 2, "name": "Somebody" }] }
+```
+
+The reconstructed and flattened represenation can be retrieved:
+
+```ruby
+perforated.to_json(rooted: true) #=> {
+  "posts": [
+    { "id": 1, "author_id": 1, "title": "Greatness" },
+    { "id": 2, "author_id": 2, "title": "Failure" }
+  ],
+  "authors": [
+    { "id": 1, "name": "Myself" },
+    { "id": 2, "name": "Somebody" }
+  ]
+}
+```
 
 ### Custom Key Strategy
 
@@ -106,3 +146,5 @@ Or install it yourself as:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+[ams]: https://github.com/rails-api/active_model_serializers
