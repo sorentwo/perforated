@@ -17,12 +17,25 @@ describe Perforated::Cache do
     end
   end
 
+  Family = Struct.new(:name, :languages) do
+    def as_json
+      { languages: languages }
+    end
+
+    def to_json
+      as_json.to_json
+    end
+
+    def cache_key
+      ['Family', name]
+    end
+  end
+
   describe '#as_json' do
     it 'constructs an automatically cached serialized' do
       ruby   = Language.new('Ruby')
       elixir = Language.new('Elixir')
-      array  = [ruby, elixir]
-      cache  = Perforated::Cache.new(array)
+      cache  = Perforated::Cache.new([ruby, elixir])
 
       expect(cache.as_json).to eq([{ name: 'Ruby' }, { name: 'Elixir' }])
 
@@ -38,6 +51,16 @@ describe Perforated::Cache do
 
       expect(Perforated.cache.read('Language/Erlang/as-json')).to eq(name: 'Elixir')
     end
+
+    it 'merges objects comprised of rooted arrays' do
+      lisps   = Family.new('Lisp', ['scheme', 'clojure'])
+      scripts = Family.new('Script', ['perl', 'ruby'])
+      cache   = Perforated::Cache.new([lisps, scripts])
+
+      expect(cache.as_json(rooted: true)).to eq(
+        languages: %w[scheme clojure perl ruby]
+      )
+    end
   end
 
   describe '#to_json' do
@@ -47,6 +70,16 @@ describe Perforated::Cache do
       expect(cache.to_json).to eq(%([{"name":"Ruby"},{"name":"Elixir"}]))
       expect(Perforated.cache.exist?('Language/Ruby/to-json')).to   be_true
       expect(Perforated.cache.exist?('Language/Elixir/to-json')).to be_true
+    end
+
+    it 'reconstructs rooted objects into a single merged object' do
+      lisps   = Family.new('Lisp', ['scheme', 'clojure'])
+      scripts = Family.new('Script', ['perl', 'ruby'])
+      cache   = Perforated::Cache.new([lisps, scripts])
+
+      expect(cache.to_json(rooted: true)).to eq(
+        '{"languages":["scheme","clojure","perl","ruby"]}'
+      )
     end
   end
 end

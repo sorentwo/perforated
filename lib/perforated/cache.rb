@@ -7,19 +7,29 @@ module Perforated
       @key_strategy = key_strategy
     end
 
-    def as_json(*)
-      keyed = keyed_enumerable('as-json')
-      keys  = keyed.keys.map(&:dup)
+    def as_json(options = {})
+      keyed   = keyed_enumerable('as-json')
+      keys    = keyed.keys.map(&:dup)
+      objects = fetch_multi(keys) { |key| keyed[key].as_json }.values
 
-      fetch_multi(keys) { |key| keyed[key].as_json }.values
+      if options[:rooted]
+        Perforated::Rooted.merge(objects)
+      else
+        objects
+      end
     end
 
-    def to_json(*)
+    def to_json(options = {})
       keyed   = keyed_enumerable('to-json')
       keys    = keyed.keys.map(&:dup)
       objects = fetch_multi(keys) { |key| keyed[key].to_json }
+      concat  = concatenate(objects)
 
-      "[#{objects.values.join(',')}]"
+      if options[:rooted]
+        Perforated::Rooted.reconstruct(concat)
+      else
+        concat
+      end
     end
 
     private
@@ -32,6 +42,10 @@ module Perforated
 
     def fetch_multi(keys, &block)
       Perforated::Compatibility.fetch_multi *keys, &block
+    end
+
+    def concatenate(objects)
+      "[#{objects.values.join(',')}]"
     end
   end
 end
