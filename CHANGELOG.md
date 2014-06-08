@@ -1,3 +1,10 @@
+## Version 0.8.1
+
+* Force use of custom implementation of `fetch_multi`. This makes using the
+  default ActiveSupport stores (Memory, Null) possible in versions of Rails
+  between 4.0 and 4.1.
+* Use array extract option support in custom fetch.
+
 ## Version 0.8.0
 
 * Support reconstructing collections of rooted objects and associations.
