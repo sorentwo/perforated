@@ -5,11 +5,11 @@ describe Perforated::Compatibility do
 
   describe '.fetch_multi' do
     it 'uses the fetch_multi method on the configured cache if present' do
-      cache = Perforated.cache = double(:cache, fetch_multi: true)
+      Perforated.cache = double(:store)
 
-      Perforated::Compatibility.fetch_multi(:one, :two)
+      expect(Perforated.cache).to receive(:fetch_multi).with(:one, :two)
 
-      expect(cache).to have_received(:fetch_multi).with(:one, :two)
+      Perforated::Compatibility.fetch_multi(:one, :two) { |key| key }
     end
 
     it 'falls back to the custom backfill if the cache does not support it' do

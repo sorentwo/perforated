@@ -1,14 +1,13 @@
 module Perforated
   module Compatibility
     def self.fetch_multi(*names, &block)
-      if Perforated.cache.respond_to?(:fetch_multi)
+      if supports_fetch_multi?
         Perforated.cache.fetch_multi(*names, &block)
       else
         custom_fetch_multi(*names, &block)
       end
     end
 
-    # Backward compatible implementation of fetch multi.
     def self.custom_fetch_multi(*names)
       options = {}
       results = Perforated.cache.read_multi(*names, options)
@@ -20,6 +19,11 @@ module Perforated
           value
         end
       end
+    end
+
+    def self.supports_fetch_multi?
+      Perforated.cache.respond_to?(:fetch_multi) &&
+      !Perforated.cache.instance_of?(ActiveSupport::Cache::MemoryStore)
     end
   end
 end
