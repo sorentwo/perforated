@@ -68,8 +68,8 @@ describe Perforated::Cache do
       cache = Perforated::Cache.new([Language.new('Ruby'), Language.new('Elixir')])
 
       expect(cache.to_json).to eq(%([{"name":"Ruby"},{"name":"Elixir"}]))
-      expect(Perforated.cache.exist?('Language/Ruby/to-json')).to   be_true
-      expect(Perforated.cache.exist?('Language/Elixir/to-json')).to be_true
+      expect(Perforated.cache.exist?('Language/Ruby/to-json')).to   be_truthy
+      expect(Perforated.cache.exist?('Language/Elixir/to-json')).to be_truthy
     end
 
     it 'reconstructs rooted objects into a single merged object' do
