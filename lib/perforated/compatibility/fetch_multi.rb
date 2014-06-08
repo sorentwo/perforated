@@ -1,3 +1,5 @@
+require 'active_support/core_ext/array/extract_options'
+
 module Perforated
   module Compatibility
     def self.fetch_multi(*names, &block)
@@ -9,7 +11,7 @@ module Perforated
     end
 
     def self.custom_fetch_multi(*names)
-      options = {}
+      options = names.extract_options!
       results = Perforated.cache.read_multi(*names, options)
 
       names.each_with_object({}) do |(name, _), memo|
