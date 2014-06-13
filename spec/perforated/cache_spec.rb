@@ -32,7 +32,7 @@ describe Perforated::Cache do
   end
 
   describe '#as_json' do
-    it 'constructs an automatically cached serialized' do
+    it 'constructs automatically cached serialized output' do
       ruby   = Language.new('Ruby')
       elixir = Language.new('Elixir')
       cache  = Perforated::Cache.new([ruby, elixir])
@@ -60,6 +60,13 @@ describe Perforated::Cache do
       expect(cache.as_json(rooted: true)).to eq(
         languages: %w[scheme clojure perl ruby]
       )
+    end
+
+    it 'safely returns an empty enumerable when empty' do
+      cache = Perforated::Cache.new([])
+
+      expect(cache.as_json).to eq([])
+      expect(cache.as_json(rooted: true)).to eq({})
     end
   end
 
