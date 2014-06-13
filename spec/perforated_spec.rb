@@ -3,7 +3,7 @@ require 'perforated'
 describe Perforated do
   after { Perforated.reset! }
 
-  describe '#configuration' do
+  describe '.configuration' do
     it 'stores an injected cache object' do
       custom_cache = Object.new
       custom_parse = Object.new
@@ -18,19 +18,19 @@ describe Perforated do
     end
   end
 
-  describe '#json' do
+  describe '.json' do
     it 'falls back to core library json' do
       expect(Perforated.json).to eq(JSON)
     end
   end
 
-  describe '#cache' do
+  describe '.cache' do
     it 'falls back to ActiveSupport::Cache::MemoryStore' do
       expect(Perforated.cache).to be_instance_of(ActiveSupport::Cache::MemoryStore)
     end
   end
 
-  describe '#new' do
+  describe '.new' do
     it 'returns a new instance of Perforated::Cache' do
       expect(Perforated.new).to be_instance_of(Perforated::Cache)
     end

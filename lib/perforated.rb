@@ -7,31 +7,33 @@ require 'perforated/strategy/default'
 require 'perforated/version'
 
 module Perforated
-  def self.new(*args)
+  extend self
+
+  def new(*args)
     Perforated::Cache.new(args)
   end
 
-  def self.cache=(new_cache)
+  def cache=(new_cache)
     @cache = new_cache
   end
 
-  def self.cache
+  def cache
     @cache ||= ActiveSupport::Cache::MemoryStore.new
   end
 
-  def self.json=(new_json)
+  def json=(new_json)
     @json = new_json
   end
 
-  def self.json
+  def json
     @json ||= JSON
   end
 
-  def self.configure
+  def configure
     yield self
   end
 
-  def self.reset!
+  def reset!
     @cache = nil
     @json  = nil
   end
