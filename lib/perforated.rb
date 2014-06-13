@@ -7,6 +7,10 @@ require 'perforated/strategy/default'
 require 'perforated/version'
 
 module Perforated
+  def self.new(*args)
+    Perforated::Cache.new(args)
+  end
+
   def self.cache=(new_cache)
     @cache = new_cache
   end
