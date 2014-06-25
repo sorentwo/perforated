@@ -24,8 +24,12 @@ module Perforated
     end
 
     def self.supports_fetch_multi?
-      Perforated.cache.respond_to?(:fetch_multi) &&
-      !Perforated.cache.instance_of?(ActiveSupport::Cache::MemoryStore)
+      cache = Perforated.cache
+
+      cache.respond_to?(:fetch_multi) && !(
+        cache.instance_of?(ActiveSupport::Cache::MemoryStore) ||
+        cache.instance_of?(ActiveSupport::Cache::NullStore)
+      )
     end
   end
 end
