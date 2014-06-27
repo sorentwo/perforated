@@ -1,8 +1,13 @@
+## Version 0.8.2
+
+* Really force the use of custom `fetch_multi` when using `NullStore`, not just
+  when using `MemoryStore`.
+
 ## Version 0.8.1
 
 * Force use of custom implementation of `fetch_multi`. This makes using the
-  default ActiveSupport stores (Memory, Null) possible in versions of Rails
-  between 4.0 and 4.1.
+  default ActiveSupport stores (Memory) possible in versions of Rails between
+  4.0 and 4.2.
 * Use array extract option support in custom fetch.
 
 ## Version 0.8.0
