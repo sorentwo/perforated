@@ -9,7 +9,13 @@ module Perforated
 
     def as_json(options = {})
       keyed   = keyed_enumerable('as-json')
-      objects = fetch_multi(keyed) { |key| keyed[key].as_json }.values
+      objects = fetch_multi(keyed) do |key|
+        if block_given?
+          (yield keyed[key]).as_json
+        else
+          keyed[key].as_json
+        end
+      end.values
 
       if options[:rooted]
         Perforated::Rooted.merge(objects)
@@ -18,15 +24,20 @@ module Perforated
       end
     end
 
-    def to_json(options = {})
+    def to_json(options = {}, &block)
       keyed   = keyed_enumerable('to-json')
-      objects = fetch_multi(keyed) { |key| keyed[key].to_json }
-      concat  = concatenate(objects)
+      objects = fetch_multi(keyed) do |key|
+        if block_given?
+          (yield keyed[key]).to_json
+        else
+          keyed[key].to_json
+        end
+      end.values
 
       if options[:rooted]
-        Perforated::Rooted.reconstruct(concat)
+        Perforated::Rooted.reconstruct(concatenate(objects))
       else
-        concat
+        concatenate(objects)
       end
     end
 
@@ -44,8 +55,8 @@ module Perforated
       Perforated::Compatibility.fetch_multi(*keys, &block)
     end
 
-    def concatenate(objects)
-      "[#{objects.values.join(',')}]"
+    def concatenate(values)
+      "[#{values.join(',')}]"
     end
   end
 end

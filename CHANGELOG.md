@@ -1,3 +1,9 @@
+## Unreleased
+
+* `as_json` and `to_json` now take a block. The block will be applied to each
+  model as it is being cached, allowing for serializers or presenters without
+  much additional memory overhead.
+
 ## Version 0.8.2
 
 * Really force the use of custom `fetch_multi` when using `NullStore`, not just

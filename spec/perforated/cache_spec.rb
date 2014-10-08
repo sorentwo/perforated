@@ -68,6 +68,23 @@ describe Perforated::Cache do
       expect(cache.as_json).to eq([])
       expect(cache.as_json(rooted: true)).to eq({})
     end
+
+    it 'applies a provided block to the object before caching' do
+      ruby  = Language.new('Ruby')
+      cache = Perforated::Cache.new([ruby])
+
+      serializer = Struct.new(:lang) do
+        def as_json
+          { name: lang.name.upcase }
+        end
+      end
+
+      results = cache.as_json do |lang|
+        serializer.new(lang)
+      end
+
+      expect(results).to eq([{ name: 'RUBY' }])
+    end
   end
 
   describe '#to_json' do
