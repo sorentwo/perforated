@@ -2,6 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'dalli'
+gem 'oj'
 gem 'redis'
 gem 'redis-activesupport', github: 'redis-store/redis-activesupport'
