@@ -4,4 +4,4 @@ gemspec
 
 gem 'dalli'
 gem 'redis'
-gem 'redis-activesupport'
+gem 'redis-activesupport', github: 'redis-store/redis-activesupport'
