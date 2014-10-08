@@ -23,11 +23,13 @@ end
 perforated = Perforated::Cache.new((0..20_000).map { |i| Structure.new(i) }, Strategy)
 
 Benchmark.bm do |x|
-  x.report('memory-1-to') { perforated.to_json }
-  x.report('memory-2-to') { perforated.to_json }
+  GC.disable
+  puts "Total Objects: #{ObjectSpace.count_objects[:TOTAL]}"
 
-  x.report('memory-1-as') { perforated.as_json }
-  x.report('memory-2-as') { perforated.as_json }
+  x.report('memory-1') { perforated.to_json }
+  x.report('memory-2') { perforated.to_json }
+
+  puts "Total Objects: #{ObjectSpace.count_objects[:TOTAL]}"
 
   Perforated.configure do |config|
     config.cache = ActiveSupport::Cache::RedisStore.new(host: 'localhost', db: 5)
@@ -35,9 +37,12 @@ Benchmark.bm do |x|
 
   Perforated.cache.clear
 
-  x.report('redis-1-to') { perforated.to_json }
-  x.report('redis-2-to') { perforated.to_json }
+  GC.enable
+  GC.start
+  GC.disable
 
-  x.report('redis-1-as') { perforated.as_json }
-  x.report('redis-2-as') { perforated.as_json }
+  x.report('redis-1') { perforated.to_json }
+  x.report('redis-2') { perforated.to_json }
+
+  puts "Total Objects: #{ObjectSpace.count_objects[:TOTAL]}"
 end
