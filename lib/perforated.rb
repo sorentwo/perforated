@@ -1,6 +1,7 @@
 require 'active_support/cache'
 require 'json'
 require 'perforated/cache'
+require 'perforated/compatibility/find_each'
 require 'perforated/compatibility/fetch_multi'
 require 'perforated/rooted'
 require 'perforated/strategy/default'
