@@ -7,23 +7,6 @@ module Perforated
       @key_strategy = key_strategy
     end
 
-    def as_json(options = {})
-      keyed   = keyed_enumerable('as-json')
-      objects = fetch_multi(keyed) do |key|
-        if block_given?
-          (yield keyed[key]).as_json
-        else
-          keyed[key].as_json
-        end
-      end.values
-
-      if options[:rooted]
-        Perforated::Rooted.merge(objects)
-      else
-        objects
-      end
-    end
-
     def to_json(options = {}, &block)
       keyed   = keyed_enumerable('to-json')
       objects = fetch_multi(keyed) do |key|

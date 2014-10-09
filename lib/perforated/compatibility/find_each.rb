@@ -15,3 +15,14 @@ module Perforated
     end
   end
 end
+
+module EnumerableExtensions
+  refine Array do
+    def find_each(options = {}, &block)
+    end
+  end
+
+  def supports_find_each?
+    self.respond_to?(:find_each)
+  end
+end

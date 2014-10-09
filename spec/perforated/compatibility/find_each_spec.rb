@@ -11,8 +11,8 @@ describe Perforated::Compatibility do
       end
 
       expect(results.length).to eq(enumerable.length)
-      expect(results.first).to eq(4)
-      expect(results.last).to eq(10000)
+      expect(results.first).to  eq(4)
+      expect(results.last).to   eq(10000)
     end
   end
 end
