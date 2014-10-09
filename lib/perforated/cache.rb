@@ -1,10 +1,14 @@
+require 'perforated/rooted'
+require 'perforated/strategy'
+require 'perforated/compatibility/fetch_multi'
+
 module Perforated
   class Cache
-    attr_reader :enumerable, :key_strategy
+    attr_accessor :enumerable, :strategy
 
-    def initialize(enumerable, key_strategy = Perforated::Strategy::Default)
-      @enumerable   = enumerable
-      @key_strategy = key_strategy
+    def initialize(enumerable, strategy = Perforated::Strategy)
+      @enumerable = enumerable
+      @strategy   = strategy
     end
 
     def to_json(options = {}, &block)
@@ -28,7 +32,7 @@ module Perforated
 
     def keyed_enumerable(suffix = '')
       enumerable.each_with_object({}) do |object, memo|
-        memo[key_strategy.expand_cache_key(object, suffix)] = object
+        memo[strategy.expand_cache_key(object, suffix)] = object
       end
     end
 
