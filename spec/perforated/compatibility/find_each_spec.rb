@@ -1,12 +1,21 @@
 require 'perforated/compatibility/find_each'
 
-describe Perforated::Compatibility do
-  describe '.find_each' do
+describe Perforated::Compatibility::ArrayExtensions do
+  FindEach = Struct.new(:array) do
+    using Perforated::Compatibility::ArrayExtensions
+
+    def perform(&block)
+      array.find_each(batch_size: 50, &block)
+    end
+  end
+
+  describe '#find_each' do
     it 'iterates over an enumerable in batches' do
       enumerable = (2..100).to_a
+      eachable   = FindEach.new(enumerable)
       results    = []
 
-      Perforated::Compatibility.find_each(enumerable, batch_size: 50) do |int|
+      eachable.perform do |int|
         results << int * int
       end
 
