@@ -32,7 +32,7 @@ describe Perforated do
 
   describe '.new' do
     it 'returns a new instance of Perforated::Cache' do
-      expect(Perforated.new).to be_instance_of(Perforated::Cache)
+      expect(Perforated.new([])).to be_instance_of(Perforated::Cache)
     end
   end
 end
