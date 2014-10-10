@@ -15,7 +15,7 @@ Structure = Struct.new(:id) do
 end
 
 module Strategy
-  def self.expand_cache_key(object, suffix)
+  def self.expand_cache_key(object)
     "perf-#{object}"
   end
 end

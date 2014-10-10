@@ -1,4 +1,4 @@
-require 'perforated/rooted'
+require 'perforated/rebuilder'
 require 'perforated/strategy'
 require 'perforated/compatibility/find_in_batches'
 require 'perforated/compatibility/fetch_multi'
@@ -29,7 +29,7 @@ module Perforated
         end.values
       end
 
-      reconstruct(rooted, results)
+      Perforated::Rebuilder.new(results).rebuild(rooted: rooted)
     end
 
     private
@@ -44,18 +44,6 @@ module Perforated
       keys = keyed.keys.map(&:dup)
 
       Perforated::Compatibility.fetch_multi(*keys, &block)
-    end
-
-    def reconstruct(rooted, results)
-      if rooted
-        Perforated::Rooted.reconstruct(concatenate(results))
-      else
-        concatenate(results)
-      end
-    end
-
-    def concatenate(values)
-      "[#{values.join(',')}]"
     end
   end
 end
