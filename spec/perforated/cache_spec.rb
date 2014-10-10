@@ -30,17 +30,17 @@ describe Perforated::Cache do
       cache  = Perforated::Cache.new([ruby, elixir])
 
       expect(cache.to_json).to eq(%([{"name":"Ruby"},{"name":"Elixir"}]))
-      expect(Perforated.cache.exist?('Language/Ruby/to-json')).to   be_truthy
-      expect(Perforated.cache.exist?('Language/Elixir/to-json')).to be_truthy
+      expect(Perforated.cache.exist?('Language/Ruby')).to   be_truthy
+      expect(Perforated.cache.exist?('Language/Elixir')).to be_truthy
     end
 
     it 'does not overwrite existing key values' do
       erlang = Language.new('Erlang')
-      Perforated.cache.write('Language/Erlang/to-json', JSON.dump(name: 'Elixir'))
+      Perforated.cache.write('Language/Erlang', JSON.dump(name: 'Elixir'))
 
       Perforated::Cache.new([erlang]).to_json
 
-      expect(Perforated.cache.read('Language/Erlang/to-json')).to eq(JSON.dump(name: 'Elixir'))
+      expect(Perforated.cache.read('Language/Erlang')).to eq(JSON.dump(name: 'Elixir'))
     end
 
     it 'safely returns an empty enumerable when empty' do

@@ -1,9 +1,12 @@
 require 'perforated/rooted'
 require 'perforated/strategy'
+require 'perforated/compatibility/find_in_batches'
 require 'perforated/compatibility/fetch_multi'
 
 module Perforated
   class Cache
+    using Perforated::Compatibility::FindInBatches
+
     attr_accessor :enumerable, :strategy
 
     def initialize(enumerable, strategy = Perforated::Strategy)
@@ -11,28 +14,29 @@ module Perforated
       @strategy   = strategy
     end
 
-    def to_json(options = {}, &block)
-      keyed   = keyed_enumerable('to-json')
-      objects = fetch_multi(keyed) do |key|
-        if block_given?
-          (yield keyed[key]).to_json
-        else
-          keyed[key].to_json
-        end
-      end.values
+    def to_json(rooted: false, batch_size: 1000, &block)
+      results = []
 
-      if options[:rooted]
-        Perforated::Rooted.reconstruct(concatenate(objects))
-      else
-        concatenate(objects)
+      enumerable.find_in_batches(batch_size: batch_size) do |subset|
+        keyed = key_mapped(subset)
+
+        results << fetch_multi(keyed) do |key|
+          if block_given?
+            (yield keyed[key]).to_json
+          else
+            keyed[key].to_json
+          end
+        end.values
       end
+
+      reconstruct(rooted, results)
     end
 
     private
 
-    def keyed_enumerable(suffix = '')
-      enumerable.each_with_object({}) do |object, memo|
-        memo[strategy.expand_cache_key(object, suffix)] = object
+    def key_mapped(subset)
+      subset.each_with_object({}) do |object, memo|
+        memo[strategy.expand_cache_key(object)] = object
       end
     end
 
@@ -40,6 +44,14 @@ module Perforated
       keys = keyed.keys.map(&:dup)
 
       Perforated::Compatibility.fetch_multi(*keys, &block)
+    end
+
+    def reconstruct(rooted, results)
+      if rooted
+        Perforated::Rooted.reconstruct(concatenate(results))
+      else
+        concatenate(results)
+      end
     end
 
     def concatenate(values)
