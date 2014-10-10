@@ -1,8 +1,18 @@
-## Unreleased
+## Version 0.9.0
 
 * `as_json` and `to_json` now take a block. The block will be applied to each
   model as it is being cached, allowing for serializers or presenters without
   much additional memory overhead.
+* `as_json` has been removed. The overhead from marshalling/unmarshalling had
+  enough overhead that it negated the caching benefits.
+* Strategies no longer expect a `suffix` property, as anything cached is
+  expected to be a JSON string.
+* Caching is performed in batches, which can be controlled by passing
+  `batch_size` through to `to_json`. Arrays are refined to support
+  `find_in_batches` in order to maintain compatibility with ActiveRecord
+  Relations. For especially large collections this can provide significant
+  memory savings (particularly when paired with passing a block through for
+  custom serialization).
 
 ## Version 0.8.2
 

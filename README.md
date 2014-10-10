@@ -117,12 +117,12 @@ cache method you can provide a custom key caching strategy.
 
 ```ruby
 module CustomStrategy
-  def self.expand_cache_key(object, suffix)
-    [object.id, object.updated_at, suffix].join('/')
+  def self.expand_cache_key(object)
+    [object.id, object.updated_at].join('/')
   end
 end
 
-perforated = Perforated::Cache.new(array, CustomStrategy)
+perforated = Perforated.new(array, CustomStrategy)
 ```
 
 ## Installation
