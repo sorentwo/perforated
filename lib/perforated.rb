@@ -6,7 +6,7 @@ module Perforated
   extend self
 
   def new(*args)
-    Perforated::Cache.new(args)
+    Perforated::Cache.new(*args)
   end
 
   def cache=(new_cache)
