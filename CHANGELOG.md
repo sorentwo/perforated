@@ -1,3 +1,9 @@
+## Version 0.9.1
+
+* To preserve the order and limit of ActiveRecord Relations, use of
+  `ActiveRecord::Relation#find_in_batches` has been removed in favor of
+  `Enumerable#each_slice` during batch caching.
+
 ## Version 0.9.0
 
 * `as_json` and `to_json` now take a block. The block will be applied to each
