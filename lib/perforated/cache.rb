@@ -1,12 +1,9 @@
 require 'perforated/rebuilder'
 require 'perforated/strategy'
-require 'perforated/compatibility/find_in_batches'
 require 'perforated/compatibility/fetch_multi'
 
 module Perforated
   class Cache
-    using Perforated::Compatibility::FindInBatches
-
     attr_accessor :enumerable, :strategy
 
     def initialize(enumerable, strategy = Perforated::Strategy)
@@ -17,7 +14,7 @@ module Perforated
     def to_json(rooted: false, batch_size: 1000, &block)
       results = []
 
-      enumerable.find_in_batches(batch_size: batch_size) do |subset|
+      enumerable.each_slice(batch_size) do |subset|
         keyed = key_mapped(subset)
 
         results << fetch_multi(keyed) do |key|
