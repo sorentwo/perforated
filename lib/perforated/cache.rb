@@ -11,28 +11,18 @@ module Perforated
       @strategy   = strategy
     end
 
-    def to_json(rooted: false, batch_size: 1000, &block)
-      results = []
+    def to_json(rooted: false, &block)
+      keyed   = key_mapped(enumerable, &block)
+      results = fetch_multi(keyed) { |key| keyed[key].to_json }.values
 
-      enumerable.each_slice(batch_size) do |subset|
-        keyed = key_mapped(subset)
-
-        results << fetch_multi(keyed) do |key|
-          if block_given?
-            (yield keyed[key]).to_json
-          else
-            keyed[key].to_json
-          end
-        end.values
-      end
-
-      Perforated::Rebuilder.new(results).rebuild(rooted: rooted)
+      rebuild(results, rooted)
     end
 
     private
 
     def key_mapped(subset)
       subset.each_with_object({}) do |object, memo|
+        object = yield(object) if block_given?
         memo[strategy.expand_cache_key(object)] = object
       end
     end
@@ -41,6 +31,10 @@ module Perforated
       keys = keyed.keys.map(&:dup)
 
       Perforated::Compatibility.fetch_multi(*keys, &block)
+    end
+
+    def rebuild(results, rooted)
+      Perforated::Rebuilder.new(results).rebuild(rooted: rooted)
     end
   end
 end

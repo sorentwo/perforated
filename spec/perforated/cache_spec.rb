@@ -55,6 +55,10 @@ describe Perforated::Cache do
       cache = Perforated::Cache.new([ruby])
 
       serializer = Struct.new(:lang) do
+        def cache_key
+          lang
+        end
+
         def to_json
           { name: lang.name.upcase }.to_json
         end
@@ -66,7 +70,6 @@ describe Perforated::Cache do
 
       expect(results).to eq(JSON.dump([{ name: 'RUBY' }]))
     end
-
 
     it 'reconstructs rooted objects into a single merged object' do
       lisps   = Family.new('Lisp', ['scheme', 'clojure'])
