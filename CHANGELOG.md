@@ -1,3 +1,10 @@
+## v0.10.0 2014-12-10
+
+* Changed: No longer support batching during serialization. See cb00076 for more
+  details about why it was removed.
+* Fixed: The result of a yielded block is now used to supply the `cache_key`,
+  which is critical for proper serializer caching.
+
 ## Version 0.9.1
 
 * To preserve the order and limit of ActiveRecord Relations, use of
