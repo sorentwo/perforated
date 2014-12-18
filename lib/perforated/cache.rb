@@ -30,6 +30,8 @@ module Perforated
     def fetch_multi(keyed, &block)
       keys = keyed.keys.map(&:dup)
 
+      return {} unless keys.any?
+
       Perforated::Compatibility.fetch_multi(*keys, &block)
     end
 
