@@ -6,7 +6,7 @@ require 'benchmark'
 require 'perforated'
 require 'active_support/core_ext/object'
 require 'redis'
-require 'redis-activesupport'
+require 'readthis'
 
 Structure = Struct.new(:id) do
   def to_json
@@ -32,7 +32,7 @@ Benchmark.bm do |x|
   puts "Total Objects: #{ObjectSpace.count_objects[:TOTAL]}"
 
   Perforated.configure do |config|
-    config.cache = ActiveSupport::Cache::RedisStore.new(host: 'localhost', db: 5)
+    config.cache = Readthis::Cache.new('redis://localhost:6379/5')
   end
 
   Perforated.cache.clear

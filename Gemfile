@@ -4,4 +4,4 @@ gemspec
 
 gem 'oj'
 gem 'redis'
-gem 'redis-activesupport', github: 'redis-store/redis-activesupport'
+gem 'readthis'
