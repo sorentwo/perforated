@@ -1,3 +1,7 @@
+## v0.10.1 2015-01-05
+
+* Fixed: Safely return an empty hash when there aren't any keys.
+
 ## v0.10.0 2014-12-10
 
 * Changed: No longer support batching during serialization. See cb00076 for more
