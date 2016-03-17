@@ -1,7 +1,7 @@
-require 'perforated'
-
-describe Perforated do
-  after { Perforated.reset! }
+RSpec.describe Perforated do
+  after do
+    Perforated.reset!
+  end
 
   describe '.configuration' do
     it 'stores an injected cache object' do

@@ -1,7 +1,7 @@
-require 'perforated'
-
-describe Perforated::Cache do
-  after { Perforated.cache.clear }
+RSpec.describe Perforated::Cache do
+  after do
+    Perforated.cache.clear
+  end
 
   Language = Struct.new(:name) do
     def to_json

@@ -1,6 +1,5 @@
 require 'perforated/rebuilder'
 require 'perforated/strategy'
-require 'perforated/compatibility/fetch_multi'
 
 module Perforated
   class Cache
@@ -32,7 +31,7 @@ module Perforated
 
       return {} unless keys.any?
 
-      Perforated::Compatibility.fetch_multi(*keys, &block)
+      Perforated.cache.fetch_multi(*keys, &block)
     end
 
     def rebuild(results, rooted)

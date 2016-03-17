@@ -1,12 +1,8 @@
-require 'json'
-require 'perforated/rebuilder'
-
-describe Perforated::Rebuilder do
+RSpec.describe Perforated::Rebuilder do
   describe '#rebuild' do
     it 'merges stringified json' do
       string_a = JSON.dump(families: { name: 'lang' }, languages: [{ name: 'scheme' }])
       string_b = JSON.dump(families: { name: 'lang' }, languages: [{ name: 'clojure' }])
-      string_c = JSON.dump(families: { name: 'lang' })
 
       rooted = Perforated::Rebuilder.new([string_a, string_b], JSON)
 
