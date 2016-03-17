@@ -5,20 +5,14 @@ require 'perforated/cache'
 module Perforated
   extend self
 
+  attr_writer :cache, :json
+
   def new(*args)
     Perforated::Cache.new(*args)
   end
 
-  def cache=(new_cache)
-    @cache = new_cache
-  end
-
   def cache
     @cache ||= ActiveSupport::Cache::MemoryStore.new
-  end
-
-  def json=(new_json)
-    @json = new_json
   end
 
   def json
