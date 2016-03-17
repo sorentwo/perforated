@@ -1,0 +1,21 @@
+AllCops:
+  Exclude:
+    - 'bench/**/*'
+    - 'bin/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+
+Metrics/LineLength:
+  AllowHeredoc: true
+
+Metrics/MethodLength:
+  Max: 12
+
+Style/Documentation:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/WordArray:
+  EnforcedStyle: brackets

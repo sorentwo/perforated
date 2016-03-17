@@ -40,7 +40,8 @@ RSpec.describe Perforated::Cache do
 
       Perforated::Cache.new([erlang]).to_json
 
-      expect(Perforated.cache.read('Language/Erlang')).to eq(JSON.dump(name: 'Elixir'))
+      expect(Perforated.cache.read('Language/Erlang'))
+        .to eq(JSON.dump(name: 'Elixir'))
     end
 
     it 'safely returns an empty enumerable when empty' do

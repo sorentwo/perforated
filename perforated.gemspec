@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     effeciently as possible.
   SUMMARY
 
-  spec.files         = `git ls-files`.split($/)
+  spec.files         = `git ls-files -z`.split("\x0")
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ['lib']
 
@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec', '~> 3'
+  spec.add_development_dependency 'rspec', '~> 3.4'
 end

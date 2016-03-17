@@ -26,7 +26,9 @@ RSpec.describe Perforated do
 
   describe '.cache' do
     it 'falls back to ActiveSupport::Cache::MemoryStore' do
-      expect(Perforated.cache).to be_instance_of(ActiveSupport::Cache::MemoryStore)
+      expect(Perforated.cache).to be_instance_of(
+        ActiveSupport::Cache::MemoryStore
+      )
     end
   end
 
