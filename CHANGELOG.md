@@ -17,9 +17,9 @@
 
 ## v0.9.0 2014-10-09
 
-* `as_json` and `to_json` now take a block. The block will be applied to each
-  model as it is being cached, allowing for serializers or presenters without
-  much additional memory overhead.
+* `to_json` now takes a block. The block will be applied to each model as it is
+  being cached, allowing for serializers or presenters without much additional
+  memory overhead.
 * `as_json` has been removed. The overhead from marshalling/unmarshalling had
   enough overhead that it negated the caching benefits.
 * Strategies no longer expect a `suffix` property, as anything cached is

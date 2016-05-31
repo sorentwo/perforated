@@ -51,12 +51,11 @@ end
 ## Usage
 
 Wrap any collection that you want to serialize in a cache instance and then
-call `as_json` or `to_json` on it. Not much to it!
+`to_json` on it. Not much to it!
 
 ```ruby
 perforated = Perforated::Cache.new(my_collection)
 perforated.to_json
-perforated.as_json
 ```
 
 Any objects that have been cached will be retrieved unaltered. Any missing
