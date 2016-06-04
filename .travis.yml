@@ -7,5 +7,4 @@ rvm:
 matrix:
   allow_failures:
     - rvm: ruby-head
-services:
-script: bin/rspec
+bundler_args: --without benchmarking
